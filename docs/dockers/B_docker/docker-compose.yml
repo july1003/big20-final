@@ -1,0 +1,31 @@
+# Server B: docker-compose.yml
+version: '3.8'
+
+services:
+  # 1. 정밀 분석 워커 (얼굴인식, 이력서 첨삭, 결과 리포트 생성)
+  analysis_worker:
+    build: .
+    container_name: worker_analysis
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    env_file: .env
+    command: celery -A tasks worker -Q analysis_queue --concurrency=1 --loglevel=info
+
+  # 2. 배치 스케줄러 (회사/취업 정보 수집, 전일 내용 정리)
+  celery_beat:
+    build: .
+    container_name: interview_beat
+    env_file: .env
+    command: celery -A tasks beat --loglevel=info
+
+  # 3. 배치 전용 워커 (데이터 적재 전용)
+  batch_worker:
+    build: .
+    container_name: worker_batch
+    env_file: .env
+    command: celery -A tasks worker -Q batch_queue --loglevel=info

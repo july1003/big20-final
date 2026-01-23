@@ -1,0 +1,41 @@
+# Server C (192.168.40.54) docker-compose.yml
+version: '3.8'
+
+services:
+  # [DB 1] 벡터 검색용 PostgreSQL
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: vector_db
+    ports:
+      - "5432:5432"
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  # [DB 2] 엔터프라이즈용 Oracle
+  oracle:
+    image: gvenzl/oracle-xe:latest
+    container_name: enterprise_db
+    ports:
+      - "1521:1521"
+    env_file: .env
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    restart: always
+
+  # [Batch] 주기적 데이터 처리 프로그램
+  batch_app:
+    build:
+      context: .
+      dockerfile: Dockerfile.batch # 위에서 만든 파일 지정
+    container_name: interview_batch
+    env_file: .env
+    depends_on:
+      - postgres
+      - oracle
+    restart: on-failure
+
+volumes:
+  pg_data:
+  oracle_data:
