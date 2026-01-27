@@ -44,8 +44,7 @@ services:
   batch_app:
     build:
       context: .
-      dockerfile: Dockerfile.batch # 위에서 만든 파일 지정
-      network: host
+      dockerfile: Dockerfile.batch
     container_name: interview_batch
     env_file: .env
     depends_on:
