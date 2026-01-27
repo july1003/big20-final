@@ -1,0 +1,37 @@
+flowchart TD
+    %% Phase 1: Pre-Processing (인풋 및 컨텍스트 설정)
+    subgraph Phase1 [Phase 1: 인풋 및 컨텍스트 설정]
+        Start([시작]) --> UserInput[User Input<br/>(자소서 & 지원직무)]
+        UserInput --> JobAnalysis[Job Analysis<br/>(핵심 역량 키워드 추출)]
+        JobAnalysis --> QGen[Question Generation<br/>(LLM: 맞춤형 질문 생성)]
+        QGen --> QQueue[(질문 큐 적재)]
+    end
+
+    %% Phase 2: Interaction Layer (실시간 면접 엔진)
+    subgraph Phase2 [Phase 2: 실시간 면접 엔진]
+        QQueue --> SessionStart{질문 제시}
+        SessionStart --> MediaStream[Media Streaming<br/>(WebRTC Audio/Video)]
+        MediaStream --> STT[STT & NLP Pipeline<br/>(음성->텍스트 변환)]
+        MediaStream --> Vision[Multimodal Analysis<br/>(Vision: 표정/시선)]
+        MediaStream --> Audio[Multimodal Analysis<br/>(Audio: 톤/속도)]
+        STT --> Intent[의도 분석<br/>(답변 완료/이탈 감지)]
+    end
+
+    %% Phase 3: Follow-up Logic (동적 질문 제어)
+    subgraph Phase3 [Phase 3: 동적 질문 제어]
+        Intent --> TailCheck{꼬리 질문 필요?}
+        TailCheck -- Yes (키워드/모호함 감지) --> TailGen[Tail-Question Logic<br/>(심층 질문 생성)]
+        TailGen --> QQueue
+        TailCheck -- No --> NextQ{다음 질문 있음?}
+        NextQ -- Yes --> QQueue
+        NextQ -- No --> EndSession([면접 종료])
+    end
+
+    %% Phase 4: Post-Processing (평가 및 리포팅)
+    subgraph Phase4 [Phase 4: 평가 및 리포팅]
+        EndSession --> Score[Score Aggregation<br/>(답변 70% + 태도 30%)]
+        Vision -.-> Score
+        Audio -.-> Score
+        Score --> Visual[Visualization<br/>(차트 및 타임스탬프)]
+        Visual --> Report[최종 리포트 생성]
+    end
