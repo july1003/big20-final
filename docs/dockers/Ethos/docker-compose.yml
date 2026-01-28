@@ -1,4 +1,4 @@
-version: '3.8' 
+#version: '3.8' 
 
 services: 
   # [DB 1] 벡터 검색용 PostgreSQL + pgvector
@@ -7,7 +7,7 @@ services:
     container_name: vector_db
     ports:
       - "5432:5432"
-    env_file: .env
+    env_file: ../.env
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: always
@@ -18,7 +18,7 @@ services:
     container_name: enterprise_db
     ports:
       - "1521:1521"
-    env_file: .env
+    env_file: ../.env
     volumes:
       - oracle_data:/opt/oracle/oradata
     restart: always
@@ -46,7 +46,7 @@ services:
       context: .
       dockerfile: Dockerfile.batch
     container_name: interview_batch
-    env_file: .env
+    env_file: ../.env
     depends_on:
       - postgres
       - oracle
