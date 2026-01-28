@@ -40,10 +40,10 @@ Oracle은 관리자 계정(SYSTEM)으로 직접 데이터를 넣기보다, 서�
 **SQL**
 
 ```
--- 1. 사용자 생성 (비밀번호는 원하는 것으로 변경하세요)
+-- 1. 사용자 생성
 CREATE USER rhetorica IDENTIFIED BY rhetorica_project2026;
 
--- 2. 권한 부여 (접속 권한 및 테이블 생성 권한 등)
+-- 2. 권한 부여 
 GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO rhetorica ;
 
 -- 3. 테이블 생성 권한 명시적 부여
