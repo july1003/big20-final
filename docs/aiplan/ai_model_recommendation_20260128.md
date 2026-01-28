@@ -25,7 +25,7 @@ docker exec -it ollama_server ollama pull qwen2.5:7b
 **역할**: `embedding_server` (Ollama), `postgres` (Vector DB), `batch_app`.
 **핵심 요구사항**: 텍스트를 고품질 벡터로 변환(Embedding Quality), RAG(검색 증강 생성) 성능 최적화.
 
-### ✅ 추천 모델: mxbai-embed-large
+### ✅ 추천 모델: mxbai-embed-large : 설치 완료
 
 - **이유**: 현재 온프레미스 임베딩 모델 중 성능(MTEB 벤치마크)이 매우 우수하며, 다국어 및 한국어 검색 성능도 준수합니다. Ollama에서 바로 사용 가능합니다.
 - **대안**: `nomic-embed-text` (긴 문맥 처리에 유리).
@@ -40,7 +40,7 @@ docker exec -it ollama_embedding ollama pull mxbai-embed-large
 
 이러한 구성에서 **AI 면접 시스템(레토리카)**을 위한 최적의 임베딩 모델로 **nomic-embed-text** 를 강력히 추천합니다.
 
-### 💡 추천 모델: 설치함
+### 💡 추천 모델: 설치완료
 
 ```script
 nomic-embed-text
@@ -74,6 +74,11 @@ ollama pull nomic-embed-text
 **대안 (한국어 특화가 더 필요할 경우):** 만약 실제 테스트 시 한국어 뉘앙스 처리가 다소 아쉽다면, 다국어 성능이 강화된
 
 **mxbai-embed-large** 또는 **bge-m3** (Ollama 라이브러리 지원 확인 필요)를 대안으로 고려할 수 있습니다. 하지만 시작은 **nomic-embed-text**로 하시는 것이 시스템 구성상 가장 무난하고 효율적입니다.
+
+```bash
+ # 모델 다운로드
+docker exec -it ollama_embedding ollama pull bge-m3
+```
 
 ### 모델 변경시 고려사항
 
